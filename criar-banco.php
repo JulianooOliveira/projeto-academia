@@ -35,7 +35,6 @@ $tables = [
             senha VARCHAR(255) NOT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Personais (agora com email)
     'personais' => "
         CREATE TABLE IF NOT EXISTS personais (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,7 +42,6 @@ $tables = [
             email VARCHAR(200)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Exercícios (agora com imagem obrigatória)
     'exercicios' => "
         CREATE TABLE IF NOT EXISTS exercicios (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +52,6 @@ $tables = [
             FOREIGN KEY (personal_id) REFERENCES personais(id) ON DELETE SET NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Planos
     'planos' => "
         CREATE TABLE IF NOT EXISTS planos (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,7 +59,6 @@ $tables = [
             valor DECIMAL(10,2) NOT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Relação entre planos e exercícios
     'plano_exercicios' => "
         CREATE TABLE IF NOT EXISTS plano_exercicios (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -93,7 +89,7 @@ $inserts = [
     "INSERT IGNORE INTO usuarios (nome_usuario, email, senha) VALUES ('usuario', 'usuario@admin.com.br', '$hashUsuario')",
 
     // Personais
-    "INSERT IGNORE INTO personais (nome, email) VALUES ('João PerPedrosonal', 'joao@academia.com')",
+    "INSERT IGNORE INTO personais (nome, email) VALUES ('João Victor', 'joao@academia.com')",
     "INSERT IGNORE INTO personais (nome, email) VALUES ('Maria Clara', 'maria@academia.com')",
 
     // Exercícios (com imagens)
@@ -109,14 +105,6 @@ $inserts = [
     // Planos
     "INSERT IGNORE INTO planos (nome_plano, valor) VALUES ('Básico', 59.90)",
     "INSERT IGNORE INTO planos (nome_plano, valor) VALUES ('Premium', 159.90)",
-
-    // Plano Básico (id 1): apenas Agachamento
-    "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (1, 2)",
-
-    // Plano Premium (id 2): todos os exercícios
-    "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 1)",
-    "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 2)",
-    "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 3)",
 ];
 
 // Executa inserções

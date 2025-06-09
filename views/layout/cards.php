@@ -20,12 +20,9 @@ function cardExercicio($id, $nome, $descricao, $personal, $imagem = '')
                 <a href="exercicios/apagar/<?= $id ?>" class="btn btn-danger"
                     onclick="return confirm('Deseja excluir este exercício?')">Excluir</a>
             <?php endif; ?>
-
-            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalExercicio<?= $id ?>">Ver mais</button>
         </div>
     </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="modalExercicio<?= $id ?>" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
