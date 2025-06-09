@@ -1,8 +1,8 @@
 <?php
-$host     = 'localhost:3306';
-$user     = 'root';
+$host = 'localhost:3306';
+$user = 'root';
 $password = '';
-$dbName   = 'academia';
+$dbName = 'academia';
 
 $conn = new mysqli($host, $user, $password);
 if ($conn->connect_error) {
@@ -35,19 +35,21 @@ $tables = [
             senha VARCHAR(255) NOT NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Personais
+    // Personais (agora com email)
     'personais' => "
         CREATE TABLE IF NOT EXISTS personais (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(100) NOT NULL
+            nome VARCHAR(100) NOT NULL,
+            email VARCHAR(200)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
-    // Exercícios
+    // Exercícios (agora com imagem obrigatória)
     'exercicios' => "
         CREATE TABLE IF NOT EXISTS exercicios (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome_exercicio VARCHAR(100) NOT NULL,
-            descricao VARCHAR(500),
+            descricao VARCHAR(1000),
+            imagem VARCHAR(255) NOT NULL,
             personal_id INT,
             FOREIGN KEY (personal_id) REFERENCES personais(id) ON DELETE SET NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
@@ -81,7 +83,7 @@ foreach ($tables as $name => $ddl) {
 }
 
 // Dados de exemplo
-$hashAdmin   = password_hash('admin123', PASSWORD_DEFAULT);
+$hashAdmin = password_hash('admin123', PASSWORD_DEFAULT);
 $hashUsuario = password_hash('usuario123', PASSWORD_DEFAULT);
 
 $inserts = [
@@ -91,28 +93,27 @@ $inserts = [
     "INSERT IGNORE INTO usuarios (nome_usuario, email, senha) VALUES ('usuario', 'usuario@admin.com.br', '$hashUsuario')",
 
     // Personais
-    "INSERT IGNORE INTO personais (nome) VALUES ('João PerPedrosonal')",
-    "INSERT IGNORE INTO personais (nome) VALUES ('Maria Clara')",
+    "INSERT IGNORE INTO personais (nome, email) VALUES ('João PerPedrosonal', 'joao@academia.com')",
+    "INSERT IGNORE INTO personais (nome, email) VALUES ('Maria Clara', 'maria@academia.com')",
 
-    // Exercícios
-    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, personal_id)
-     VALUES ('Rosca com halteres', 'Trabalha o bíceps com halteres.', 1)",
+    // Exercícios (com imagens)
+    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, imagem, personal_id)
+     VALUES ('Rosca com halteres', 'Trabalha o bíceps com halteres.', 'img-1.jpg', 1)",
 
-    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, personal_id)
-     VALUES ('Agachamento', 'Fortalece pernas, glúteos e quadríceps.', 2)",
+    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, imagem, personal_id)
+     VALUES ('Agachamento', 'Fortalece pernas, glúteos e quadríceps.', 'img-2.jpg', 2)",
 
-    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, personal_id)
-     VALUES ('Abdominal reto', 'Trabalha a musculatura abdominal.', 2)",
+    "INSERT IGNORE INTO exercicios (nome_exercicio, descricao, imagem, personal_id)
+     VALUES ('Abdominal reto', 'Trabalha a musculatura abdominal.', 'img-3.jpg', 2)",
 
     // Planos
     "INSERT IGNORE INTO planos (nome_plano, valor) VALUES ('Básico', 59.90)",
     "INSERT IGNORE INTO planos (nome_plano, valor) VALUES ('Premium', 159.90)",
 
-    // Relação planos ↔ exercícios
-    // Básico (id 1): apenas Agachamento
+    // Plano Básico (id 1): apenas Agachamento
     "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (1, 2)",
 
-    // Premium (id 2): todos os exercícios
+    // Plano Premium (id 2): todos os exercícios
     "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 1)",
     "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 2)",
     "INSERT IGNORE INTO plano_exercicios (plano_id, exercicio_id) VALUES (2, 3)",

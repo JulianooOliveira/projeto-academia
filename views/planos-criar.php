@@ -9,14 +9,7 @@
     <label>Valor (R$)</label>
     <input type="number" step="0.01" name="valor" required>
 
-    <label>Exercícios Inclusos</label>
     <div style="margin-bottom: 1rem;">
-        <?php foreach ($exercicios as $ex): ?>
-            <div>
-                <input type="checkbox" name="exercicios[]" value="<?= $ex['id'] ?>">
-                <?= htmlspecialchars($ex['nome_exercicio']) ?>
-            </div>
-        <?php endforeach; ?>
     </div>
 
     <button type="submit" class="btn btn-primary">Salvar</button>
